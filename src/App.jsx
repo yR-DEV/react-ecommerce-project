@@ -17,13 +17,22 @@ const App = () => {
 
   const [state, setState] = useState([]);
 
-  const axiosGet = (url) => {
+  const axiosGet = () => {
     axios.get("https://rickandmortyapi.com/api/character")
-          .then(response => setState(response.data.results))
+          .then(response => setState({characters: response.data.results, dates: []}))
   }
 
   const clearState = () => {
-    setState([]);
+    // setState({characters: []});
+    console.log(state);
+  }
+
+  const addToCart = (date) => {
+    // let dateCart = state.dates[1];
+    // dateCart.push(date);
+    console.log(date);
+    setState({...state, dates: [date]})
+    console.log(state);
   }
 
   return (
@@ -31,10 +40,10 @@ const App = () => {
       <Header />
         <Switch>
           <Route path="/products">
-            <Products getApi={axiosGet} clearState={clearState} people={state}/>
+            <Products getApi={axiosGet} clearState={clearState} addToCart={addToCart} people={state.characters}/>
           </Route>
           <Route path="/cart">
-            <Cart getApi={axiosGet} clearState={clearState} cart={state}/>
+            <Cart getApi={axiosGet} clearState={clearState} cart={state.dates}/>
           </Route>  
           <Route exact path="/">
             <Landing getApi={axiosGet} clearState={clearState} locs={state}/>
